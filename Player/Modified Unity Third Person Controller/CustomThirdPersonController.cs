@@ -38,6 +38,10 @@ namespace StarterAssets
         public float Gravity = -15.0f;
 
         [Space(10)]
+        [Tooltip("Fly mode speed in m/s")]
+        public float FlySpeed = 8.0f;
+
+        [Space(10)]
         [Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
         public float JumpTimeout = 0.50f;
 
@@ -87,6 +91,9 @@ namespace StarterAssets
         // timeout deltatime
         private float _jumpTimeoutDelta;
         private float _fallTimeoutDelta;
+
+        // fly mode
+        private bool _isFlyMode = false;
         #endregion
 #if ENABLE_INPUT_SYSTEM
         private PlayerInput _playerInput;
@@ -138,9 +145,22 @@ namespace StarterAssets
 
         private void Update()
         {
-            JumpAndGravity();
-            GroundedCheck();
-            Move();
+            // Toggle fly mode with F key
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                _isFlyMode = !_isFlyMode;
+            }
+
+            if (_isFlyMode)
+            {
+                FlyMove();
+            }
+            else
+            {
+                JumpAndGravity();
+                GroundedCheck();
+                Move();
+            }
 
             if (Game.CursorLockState != CursorLockMode.Locked) LockCameraPosition = true;
             else LockCameraPosition = false;
@@ -180,6 +200,27 @@ namespace StarterAssets
             // Cinemachine will follow this target
             CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
                 _cinemachineTargetYaw, 0.0f);
+        }
+
+        private void FlyMove()
+        {
+            // Get input
+            Vector2 moveInput = _input.move;
+
+            if (moveInput == Vector2.zero)
+            {
+                return;
+            }
+
+            // Get camera forward and right vectors
+            Vector3 cameraForward = _mainCamera.transform.forward;
+            Vector3 cameraRight = _mainCamera.transform.right;
+
+            // Calculate movement direction based on camera orientation (including vertical component)
+            Vector3 moveDirection = (cameraForward * moveInput.y + cameraRight * moveInput.x).normalized;
+
+            // Move the character controller
+            _controller.Move(moveDirection * FlySpeed * Time.deltaTime);
         }
 
         private void Move()
