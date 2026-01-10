@@ -41,6 +41,9 @@ namespace StarterAssets
         [Tooltip("Fly mode speed in m/s")]
         public float FlySpeed = 8.0f;
 
+        [Tooltip("Speed multiplier when holding Shift in fly mode")]
+        public float FlySpeedBoostMultiplier = 2.5f;
+
         [Space(10)]
         [Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
         public float JumpTimeout = 0.50f;
@@ -206,21 +209,47 @@ namespace StarterAssets
         {
             // Get input
             Vector2 moveInput = _input.move;
+            Vector3 moveDirection = Vector3.zero;
 
-            if (moveInput == Vector2.zero)
+            // Calculate horizontal movement based on camera orientation (including vertical component)
+            if (moveInput != Vector2.zero)
+            {
+                // Get camera forward and right vectors
+                Vector3 cameraForward = _mainCamera.transform.forward;
+                Vector3 cameraRight = _mainCamera.transform.right;
+
+                moveDirection = (cameraForward * moveInput.y + cameraRight * moveInput.x).normalized;
+            }
+
+            // Add vertical movement with Space (up) and Ctrl (down)
+            if (Input.GetKey(KeyCode.Space))
+            {
+                moveDirection += Vector3.up;
+            }
+            if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
+            {
+                moveDirection += Vector3.down;
+            }
+
+            // Normalize if we have movement to prevent faster diagonal movement
+            if (moveDirection != Vector3.zero)
+            {
+                moveDirection = moveDirection.normalized;
+            }
+            else
             {
                 return;
             }
 
-            // Get camera forward and right vectors
-            Vector3 cameraForward = _mainCamera.transform.forward;
-            Vector3 cameraRight = _mainCamera.transform.right;
-
-            // Calculate movement direction based on camera orientation (including vertical component)
-            Vector3 moveDirection = (cameraForward * moveInput.y + cameraRight * moveInput.x).normalized;
+            // Apply speed boost if Shift is held
+            float currentFlySpeed = FlySpeed;
+            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            {
+                currentFlySpeed *= FlySpeedBoostMultiplier;
+            }
 
             // Move the character controller
-            _controller.Move(moveDirection * FlySpeed * Time.deltaTime);
+            _controller.Move(moveDirection * currentFlySpeed * Time.deltaTime);
         }
 
         private void Move()
