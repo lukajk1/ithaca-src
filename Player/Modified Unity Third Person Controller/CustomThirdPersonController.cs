@@ -211,12 +211,17 @@ namespace StarterAssets
             Vector2 moveInput = _input.move;
             Vector3 moveDirection = Vector3.zero;
 
-            // Calculate horizontal movement based on camera orientation (including vertical component)
+            // Calculate horizontal movement based on camera orientation (no vertical component from camera)
             if (moveInput != Vector2.zero)
             {
-                // Get camera forward and right vectors
+                // Get camera forward and right vectors, flattened to horizontal plane
                 Vector3 cameraForward = _mainCamera.transform.forward;
+                cameraForward.y = 0;
+                cameraForward.Normalize();
+
                 Vector3 cameraRight = _mainCamera.transform.right;
+                cameraRight.y = 0;
+                cameraRight.Normalize();
 
                 moveDirection = (cameraForward * moveInput.y + cameraRight * moveInput.x).normalized;
             }
