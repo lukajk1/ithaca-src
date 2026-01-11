@@ -3,6 +3,83 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class EquipmentSlots
+{
+    public ConcreteItem Hat;
+    public ConcreteItem Torso;
+    public ConcreteItem FishingRod;
+    public ConcreteItem Lure;
+    public ConcreteItem Charm;
+
+    public IEnumerable<ConcreteItem> GetAll()
+    {
+        yield return Hat;
+        yield return Torso;
+        yield return FishingRod;
+        yield return Lure;
+        yield return Charm;
+    }
+
+    public void Equip(ConcreteItem item)
+    {
+        switch(item.data.type)
+        {
+            case ItemData.Type.FishingRod:
+                FishingRod = item;
+                break;
+
+            case ItemData.Type.Lure:
+                Lure = item;
+                break;
+
+            case ItemData.Type.Charm:
+                Charm = item;
+                break;
+
+            default:
+                Debug.Log($"Item {item.data.displayName} could not be equipped (no matching type).");
+                break;
+            //case ItemData.Type.Hat:
+            //    Hat = item;
+            //    break;
+
+            //case ItemData.Type.Torso:
+            //    Torso = item;
+            //    break;
+        }
+    }
+
+    public void Unequip(ConcreteItem item)
+    {
+        switch(item.data.type)
+        {
+            case ItemData.Type.FishingRod:
+                FishingRod = null;
+                break;
+
+            case ItemData.Type.Lure:
+                Lure = null;
+                break;
+
+            case ItemData.Type.Charm:
+                Charm = null;
+                break;
+
+            default:
+                Debug.Log($"Item {item.data.displayName} could not be unequipped (no matching type).");
+                break;
+            //case ItemData.Type.Hat:
+            //    Hat = null;
+            //    break;
+
+            //case ItemData.Type.Torso:
+            //    Torso = null;
+            //    break;
+        }
+    }
+}
+
 public class PlayerInfo : MonoBehaviour
 {
     // inventory ==================================================================
@@ -11,13 +88,7 @@ public class PlayerInfo : MonoBehaviour
     public static int Microplastics = 450;
     public static ConcreteItem[] Inventory;
 
-    public static ConcreteItem[] EquippedItems = new ConcreteItem[20];
-    // yes this is not a good way to do it
-    // 0 -> hat
-    // 1 -> torso
-    // 11 -> rod
-    // 12 -> lure
-    // 13 -> charm
+    public static EquipmentSlots EquippedItems = new EquipmentSlots();
 
     public static EquipmentStats Stats;
 
@@ -52,13 +123,10 @@ public class PlayerInfo : MonoBehaviour
     {
         // 1. Initialize the final stats with default values (1.0f for modifiers)
         EquipmentStats totalStats = new EquipmentStats(useDefaults: true);
-        //Debug.Log("playinfo bite speed mod" + totalStats.biteSpeedModifier);
-        // 2. Iterate through all slots in the EquippedItems array
-        for (int i = 0; i < EquippedItems.Length; i++)
-        {
-            // Check if the slot is occupied by an item
-            ConcreteItem equippedItem = EquippedItems[i];
 
+        // 2. Iterate through all equipped items
+        foreach (ConcreteItem equippedItem in EquippedItems.GetAll())
+        {
             if (equippedItem != null && equippedItem.data is EquipmentData equipmentData)
             {
                 // Retrieve the stats from the equipped item

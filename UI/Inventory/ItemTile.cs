@@ -88,11 +88,7 @@ public class ItemTile : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                     InventoryManager.i.SetToFirstFreeSlot(gameObject);
                     isEquipped = false;
 
-                    // magic numbers are always very poggers
-                    if (item.data.type == ItemData.Type.FishingRod) PlayerInfo.EquippedItems[11] = null;
-                    else if (item.data.type == ItemData.Type.Lure) PlayerInfo.EquippedItems[12] = null;
-                    else if (item.data.type == ItemData.Type.Charm) PlayerInfo.EquippedItems[13] = null;
-
+                    PlayerInfo.EquippedItems.Unequip(item);
                     PlayerInfo.CalculateStats();
                 }
                 else

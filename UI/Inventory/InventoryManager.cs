@@ -108,11 +108,7 @@ public class InventoryManager : MonoBehaviour
         tileRect.localRotation = Quaternion.identity;
         tileRect.localScale = Vector3.one;
 
-
-        if (item.data.type == ItemData.Type.FishingRod) PlayerInfo.EquippedItems[11] = item;
-        else if (item.data.type == ItemData.Type.Lure) PlayerInfo.EquippedItems[12] = item;
-        else if (item.data.type == ItemData.Type.Charm) PlayerInfo.EquippedItems[13] = item;
-
+        PlayerInfo.EquippedItems.Equip(item);
         PlayerInfo.CalculateStats();
     }
 }
