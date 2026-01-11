@@ -71,41 +71,6 @@ public class Console : MonoBehaviour
             return false;
         }
 
-        if (parsed[0] == "player" || parsed[0] == "p")
-        {
-            if (parsed[1] == "speed" || parsed[1] == "s")
-            {
-                if (float.TryParse(parsed[2], out float speed))
-                {
-                    playerController.MoveSpeed = speed;
-                    return true;
-                }
-                else
-                {
-                    Debug.LogWarning($"Invalid value for player speed: {parsed[2]}");
-                    return false;
-                }
-            }
-            else if (parsed[1] == "jump" || parsed[1] == "j")
-            {
-                if (float.TryParse(parsed[2], out float jumpForce))
-                {
-                    playerController.JumpForce = jumpForce;
-                    return true;
-                }
-                else
-                {
-                    Debug.LogWarning($"Invalid value for player jump: {parsed[2]}");
-                    return false;
-                }
-            }
-            else if ((parsed[1] == "values" || parsed[1] == "v") && (parsed[2] == "reset" || parsed[2] == "r"))
-            {
-                playerController.ResetValues();
-                return true;
-            }
-        }
-
         else if (parsed[0] == "set" || parsed[0] == "s")
         {
             if (parsed[1] == "weather" || parsed[1] == "w")
