@@ -39,12 +39,18 @@ public class QuantumConsoleImplementation : MonoBehaviour
     #endregion
 
     [Command("time-set")]
-    protected static void setTime(int hours, int seconds = 0) {
+    protected static void SetTime(int hours, int seconds = 0) {
         GTime.SetTime(hours, seconds);
     }
 
     [Command("do-time-tick")]
-    protected static void doTimeTick(bool boolean) {
+    protected static void DoTimeTick(bool boolean) {
         GTime.doTimeTick = boolean;
+    }
+
+    [Command("give-microplastics")]
+    protected static void GiveMicroplastics(int amount)
+    {
+        PlayerInfo.Microplastics += amount;
     }
 }
