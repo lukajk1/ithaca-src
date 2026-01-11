@@ -80,6 +80,10 @@ namespace StarterAssets
         [Tooltip("For locking the camera position on all axis")]
         public bool LockCameraPosition = false;
 
+        [Header("Input Actions")]
+        [Tooltip("Input action for toggling fly mode")]
+        [SerializeField] private InputActionReference toggleFlyModeAction;
+
         // cinemachine
         private float _cinemachineTargetYaw;
         private float _cinemachineTargetPitch;
@@ -129,13 +133,31 @@ namespace StarterAssets
             }
         }
 
+        private void OnEnable()
+        {
+            if (toggleFlyModeAction != null)
+            {
+                toggleFlyModeAction.action.Enable();
+                toggleFlyModeAction.action.performed += OnToggleFlyMode;
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (toggleFlyModeAction != null)
+            {
+                toggleFlyModeAction.action.performed -= OnToggleFlyMode;
+                toggleFlyModeAction.action.Disable();
+            }
+        }
+
         private void Start()
         {
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
-            
+
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<CustomStarterAssetsInputs>();
-#if ENABLE_INPUT_SYSTEM 
+#if ENABLE_INPUT_SYSTEM
             _playerInput = GetComponent<PlayerInput>();
 #else
 			Debug.LogError( "Starter Assets package is missing dependencies. Please use Tools/Starter Assets/Reinstall Dependencies to fix it");
@@ -146,14 +168,13 @@ namespace StarterAssets
             _fallTimeoutDelta = FallTimeout;
         }
 
+        private void OnToggleFlyMode(InputAction.CallbackContext context)
+        {
+            _isFlyMode = !_isFlyMode;
+        }
+
         private void Update()
         {
-            // Toggle fly mode with F key
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                _isFlyMode = !_isFlyMode;
-            }
-
             if (_isFlyMode)
             {
                 FlyMove();
