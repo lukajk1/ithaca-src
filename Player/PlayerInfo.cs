@@ -6,17 +6,19 @@ using UnityEngine;
 public class PlayerInfo : MonoBehaviour
 {
     // inventory ==================================================================
+    private const int INITIAL_INVENTORY_SIZE = 15;
+
     public static int Microplastics = 450;
-    private int intitalInventorySize = 15;
     public static ConcreteItem[] Inventory;
 
+    public static ConcreteItem[] EquippedItems = new ConcreteItem[20];
     // yes this is not a good way to do it
     // 0 -> hat
     // 1 -> torso
     // 11 -> rod
     // 12 -> lure
     // 13 -> charm
-    public static ConcreteItem[] EquippedItems = new ConcreteItem[20];
+
     public static EquipmentStats Stats;
 
     // region ==================================================================
@@ -25,7 +27,7 @@ public class PlayerInfo : MonoBehaviour
     {
         if (Inventory == null || Inventory.Length == 0)
         {
-            Inventory = new ConcreteItem[intitalInventorySize];
+            Inventory = new ConcreteItem[INITIAL_INVENTORY_SIZE];
         }
 
         Stats = new EquipmentStats(useDefaults: true);
