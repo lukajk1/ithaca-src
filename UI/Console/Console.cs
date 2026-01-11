@@ -146,26 +146,26 @@ public class Console : MonoBehaviour
         //    return false;
         //}
 
-        else if (parsed[0] == "tp")
-        {
-            Transform loc = GameObject.FindAnyObjectByType<Waypoints>().GetWaypoint(parsed[1]);
-            if (loc != null)
-            {
-                //player.GetComponent<Rigidbody>().MovePosition(loc.position);
-                player.transform.position = loc.position;
-                return true;
-            }
-            else return false;
-        }
+        //else if (parsed[0] == "tp")
+        //{
+        //    Transform loc = GameObject.FindAnyObjectByType<Waypoints>().GetWaypoint(parsed[1]);
+        //    if (loc != null)
+        //    {
+        //        //player.GetComponent<Rigidbody>().MovePosition(loc.position);
+        //        player.transform.position = loc.position;
+        //        return true;
+        //    }
+        //    else return false;
+        //}
 
-        else if (parsed[0] == "fov")
-        {
-            if (float.TryParse(parsed[1], out float fov))
-            {
-                FindAnyObjectByType<FOVAndZoom>().SetFOV(fov);
-                return true;
-            }
-        }
+        //else if (parsed[0] == "fov")
+        //{
+        //    if (float.TryParse(parsed[1], out float fov))
+        //    {
+        //        FindAnyObjectByType<FOVAndZoom>().SetFOV(fov);
+        //        return true;
+        //    }
+        //}
 
         // otherwise
         Debug.LogWarning($"Unknown command: {formatted}");

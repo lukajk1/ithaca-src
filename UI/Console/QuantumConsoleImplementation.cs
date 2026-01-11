@@ -38,8 +38,13 @@ public class QuantumConsoleImplementation : MonoBehaviour
     }
     #endregion
 
-    [Command("int-prop")]
-    protected static int someInt(int myInt) { 
-        return myInt + 5; 
+    [Command("time-set")]
+    protected static void setTime(int hours, int seconds = 0) {
+        GTime.SetTime(hours, seconds);
+    }
+
+    [Command("do-time-tick")]
+    protected static void doTimeTick(bool boolean) {
+        GTime.doTimeTick = boolean;
     }
 }

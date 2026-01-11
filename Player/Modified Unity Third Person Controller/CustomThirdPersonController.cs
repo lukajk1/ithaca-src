@@ -37,7 +37,7 @@ namespace StarterAssets
         [Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
         public float Gravity = -15.0f;
 
-        [Space(10)]
+        [Header("Fly Mode")]
         [Tooltip("Fly mode speed in m/s")]
         public float FlySpeed = 8.0f;
 

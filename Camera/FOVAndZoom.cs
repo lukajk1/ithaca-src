@@ -1,6 +1,7 @@
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using QFSW.QC;
 
 public class FOVAndZoom : MonoBehaviour
 {
