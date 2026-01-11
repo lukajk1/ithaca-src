@@ -135,19 +135,19 @@ public class PlayerInfo : MonoBehaviour
                 // 3. AGGREGATE STATS
                 // Since most stats are "modifiers" (multipliers), they should be added together.
                 // Example: If Hat gives +0.1 and Torso gives +0.2, the total modifier is 1.3.
-                totalStats.biteSpeedModifier += (itemStats.biteSpeedModifier - 1f);
-                totalStats.castMinigameSpeedModifier += (itemStats.castMinigameSpeedModifier - 1f);
-                totalStats.castStrengthModifier += (itemStats.castStrengthModifier - 1f);
-                totalStats.castSpeedModifier += (itemStats.castSpeedModifier - 1f);
-                totalStats.castWindowSizeModifier += (itemStats.castWindowSizeModifier - 1f);
-                totalStats.minigameSpeedModifier += (itemStats.minigameSpeedModifier - 1f);
-                totalStats.minigameDensityModifier += (itemStats.minigameDensityModifier - 1f);
-                totalStats.commonWeightModifier += (itemStats.commonWeightModifier - 1f);
-                totalStats.uncommonWeightModifier += (itemStats.uncommonWeightModifier - 1f);
-                totalStats.rareWeightModifier += (itemStats.rareWeightModifier - 1f);
-                totalStats.legendaryWeightModifier += (itemStats.legendaryWeightModifier - 1f);
-                totalStats.rainyWeatherModifier += (itemStats.rainyWeatherModifier - 1f);
-                totalStats.sunnyWeatherModifier += (itemStats.sunnyWeatherModifier - 1f);
+                totalStats.biteSpeedModifier += (itemStats.biteSpeedModifier);
+                totalStats.castMinigameSpeedModifier += (itemStats.castMinigameSpeedModifier);
+                totalStats.castStrengthModifier += (itemStats.castStrengthModifier);
+                totalStats.castSpeedModifier += (itemStats.castSpeedModifier);
+                totalStats.castWindowSizeModifier += (itemStats.castWindowSizeModifier);
+                totalStats.minigameSpeedModifier += (itemStats.minigameSpeedModifier);
+                totalStats.minigameDensityModifier += (itemStats.minigameDensityModifier);
+                totalStats.commonWeightModifier += (itemStats.commonWeightModifier);
+                totalStats.uncommonWeightModifier += (itemStats.uncommonWeightModifier);
+                totalStats.rareWeightModifier += (itemStats.rareWeightModifier);
+                totalStats.legendaryWeightModifier += (itemStats.legendaryWeightModifier);
+                totalStats.rainyWeatherModifier += (itemStats.rainyWeatherModifier);
+                totalStats.sunnyWeatherModifier += (itemStats.sunnyWeatherModifier);
             }
         }
 

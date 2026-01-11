@@ -1,3 +1,4 @@
+using ExternPropertyAttributes;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewEquipmentItem", menuName = "Ithaca/Equipment")]
@@ -9,6 +10,8 @@ public class EquipmentData : ItemData
 [System.Serializable]
 public struct EquipmentStats
 {
+    [InfoBox("Modifiers aren't prefixed with a '1'. i.e. 20% speed increase= 0.2, not 1.2. Modifiers on equipment are additive.")]
+    [Space(10)]
     public float biteSpeedModifier;
     public float castStrengthModifier;
 

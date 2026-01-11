@@ -16,6 +16,11 @@ public class DebugScreen : MonoBehaviour
     [Header("Stats")]
     [SerializeField] private TextMeshProUGUI biteSpeedReadout;
 
+    [SerializeField] private TextMeshProUGUI commonWeightModifier;
+    [SerializeField] private TextMeshProUGUI uncommonWeightModifier;
+    [SerializeField] private TextMeshProUGUI rareWeightModifier;
+    [SerializeField] private TextMeshProUGUI legendaryWeightModifier;
+
     public static DebugScreen i;
     private const string NULLSTRING = "-";
 
@@ -67,6 +72,10 @@ public class DebugScreen : MonoBehaviour
 
             // stats
             biteSpeedReadout.text = $"{PlayerInfo.Stats.biteSpeedModifier}";
+            commonWeightModifier.text = $"{PlayerInfo.Stats.commonWeightModifier}";
+            uncommonWeightModifier.text = $"{PlayerInfo.Stats.uncommonWeightModifier}";
+            rareWeightModifier.text = $"{PlayerInfo.Stats.rareWeightModifier}";
+            legendaryWeightModifier.text = $"{PlayerInfo.Stats.legendaryWeightModifier}";
         }
     }
 
