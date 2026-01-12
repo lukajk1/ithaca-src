@@ -17,31 +17,51 @@ public class FishDatabase : MonoBehaviour
 
     public FishData GetFish(DayPeriod dayPeriod, FishData.Zone zone)
     {
-        List<FishData> zoneList;
-
-        switch (zone)
-        {
-            case FishData.Zone.Freshwater:
-                zoneList = freshwaterFish;
-                break;
-            case FishData.Zone.Saltwater:
-                zoneList = saltwaterFish;
-                break;
-            case FishData.Zone.Deep:
-                zoneList = deepFish;
-                break;
-            case FishData.Zone.Wetlands:
-                zoneList = wetlandsFish;
-                break;
-            default:
-                zoneList = freshwaterFish; // shouldn't ever reach here
-                break;
-        }
-
+        List<FishData> zoneList = GetZoneList(zone);
         return RandomFishByRarity(zoneList);
     }
 
-    // I suppose fish should just have a standard rarity assigned by their rarity tier.. except for mythical fish?
+    public FishData GetFishByZoneAndRarity(DayPeriod dayPeriod, FishData.Zone zone, Rarity rarity)
+    {
+        List<FishData> zoneList = GetZoneList(zone);
+
+        // Filter fish by rarity
+        List<FishData> rarityPool = new List<FishData>();
+        foreach (var fish in zoneList)
+        {
+            if (fish.rarity == rarity)
+            {
+                rarityPool.Add(fish);
+            }
+        }
+
+        // If no fish at this rarity, return null to trigger reroll
+        if (rarityPool.Count == 0)
+        {
+            return null;
+        }
+
+        // Random fish from the rarity pool
+        return rarityPool[Random.Range(0, rarityPool.Count)];
+    }
+
+    private List<FishData> GetZoneList(FishData.Zone zone)
+    {
+        switch (zone)
+        {
+            case FishData.Zone.Freshwater:
+                return freshwaterFish;
+            case FishData.Zone.Saltwater:
+                return saltwaterFish;
+            case FishData.Zone.Deep:
+                return deepFish;
+            case FishData.Zone.Wetlands:
+                return wetlandsFish;
+            default:
+                return freshwaterFish; // shouldn't ever reach here
+        }
+    }
+
     private FishData RandomFishByRarity(List<FishData> availableFish)
     {
         float totalWeight = 0;
