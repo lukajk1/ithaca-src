@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FishingManager : MonoBehaviour
 {
+    [SerializeField] private bool printDebugStatements;
+
     [SerializeField] private AudioClip caughtFishSFX;
     private const float minBiteTime = 6f;
     private const float maxBiteTime = 12f;
@@ -35,30 +37,21 @@ public class FishingManager : MonoBehaviour
     public void Fish()
     {
         DayPeriod currentPeriod = DayPeriod.Afternoon;
+        FishData.Zone zone = FishData.Zone.Saltwater;
 
-        Rarity rolledRarity = RollWeightedRarity();
-        FishData caughtFish = FishDatabase.i.GetFishByZoneAndRarity(currentPeriod, FishData.Zone.Saltwater, rolledRarity);
+        Rarity rolledRarity = RollWeightedRarity(zone);
+        FishData caughtFish = FishDatabase.i.GetFishByZoneAndRarity(currentPeriod, zone, rolledRarity);
 
-        // If no fish found at that rarity, reroll until we find one
-        int maxAttempts = 10;
-        int attempts = 0;
-        while (caughtFish == null && attempts < maxAttempts)
-        {
-            rolledRarity = RollWeightedRarity();
-            caughtFish = FishDatabase.i.GetFishByZoneAndRarity(currentPeriod, FishData.Zone.Saltwater, rolledRarity);
-            attempts++;
-        }
-
-        // Fallback to old method if all attempts fail
+        // Fallback to old method if fish is null (shouldn't happen since we exclude empty pools)
         if (caughtFish == null)
         {
-            caughtFish = FishDatabase.i.GetFish(currentPeriod, FishData.Zone.Saltwater);
+            caughtFish = FishDatabase.i.GetFish(currentPeriod, zone);
         }
 
         StartCoroutine(FishingWaitCR(caughtFish, NormalRandom()));
     }
 
-    private Rarity RollWeightedRarity()
+    private Rarity RollWeightedRarity(FishData.Zone zone)
     {
         // Apply player stat modifiers to base rarity weights
         Dictionary<Rarity, float> weightedRarities = new()
@@ -70,9 +63,27 @@ public class FishingManager : MonoBehaviour
             { Rarity.Mythical, relativeRarity["mythic"] }
         };
 
-        // Calculate total weight
+        if (printDebugStatements)
+        {
+            Debug.Log($"common chance after modifier: {weightedRarities[Rarity.Common]}");
+            Debug.Log($"uncommon chance after modifier: {weightedRarities[Rarity.Uncommon]}");
+            Debug.Log($"rare chance after modifier: {weightedRarities[Rarity.Rare]}");
+            Debug.Log($"legendary chance after modifier: {weightedRarities[Rarity.Legendary]}");
+        }
+
+        // Exclude rarities with no fish in this zone
+        Dictionary<Rarity, float> availableRarities = new Dictionary<Rarity, float>();
+        foreach (var kvp in weightedRarities)
+        {
+            if (FishDatabase.i.HasFishAtRarity(zone, kvp.Key))
+            {
+                availableRarities[kvp.Key] = kvp.Value;
+            }
+        }
+
+        // Calculate total weight of available rarities
         float totalWeight = 0;
-        foreach (var weight in weightedRarities.Values)
+        foreach (var weight in availableRarities.Values)
         {
             totalWeight += weight;
         }
@@ -81,16 +92,23 @@ public class FishingManager : MonoBehaviour
         float random = Random.Range(0, totalWeight);
         float currentWeight = 0;
 
-        foreach (var kvp in weightedRarities)
+        foreach (var kvp in availableRarities)
         {
             currentWeight += kvp.Value;
             if (random < currentWeight)
             {
+                if (printDebugStatements) Debug.Log($"picked {kvp.Key} rarity pool");
                 return kvp.Key;
             }
         }
 
-        // Fallback to common
+        // Fallback - return first available rarity
+        foreach (var kvp in availableRarities)
+        {
+            return kvp.Key;
+        }
+
+        // Ultimate fallback to common (shouldn't reach here)
         return Rarity.Common;
     }
 
