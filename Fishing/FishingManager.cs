@@ -125,6 +125,7 @@ public class FishingManager : MonoBehaviour
         PlayerInfo.TryAddToInventory(concreteFish);
         SoundManager.Play(new SoundData(caughtFishSFX, SoundData.Type.SFX, varyPitch: false, varyVolume: false));
         CaughtFishAlert.i.Display(concreteFish);
+        FishDiary.Record(concreteFish);
     }
 
     private float NormalRandom()
