@@ -29,7 +29,7 @@ public class CaughtFishAlert : MonoBehaviour
     [Command("caught-fish-display")]
     void DebugDisplay()
     {
-        LockActionMap.i.Lock(true);
+        LockActionMap.i.ModifyLockList(true, this);
         Game.ModifyCursorUnlockList(true, this);
         i.transition.Animate(true);
     }
@@ -44,7 +44,7 @@ public class CaughtFishAlert : MonoBehaviour
 
         i.fishQualityFloat.text = $"quality: <color=#{hexColor}>{caughtFish.quality}</color>";
 
-        LockActionMap.i.Lock(true);
+        LockActionMap.i.ModifyLockList(true, this);
         Game.ModifyCursorUnlockList(true, this);
         i.transition.Animate(true);
     }
@@ -52,7 +52,7 @@ public class CaughtFishAlert : MonoBehaviour
     void Close()
     {
         transition.Animate(false);
-        LockActionMap.i.Lock(false);
+        LockActionMap.i.ModifyLockList(false, this);
         Game.ModifyCursorUnlockList(false, this);
 
     }

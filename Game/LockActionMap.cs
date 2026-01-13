@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,9 +20,18 @@ public class LockActionMap : MonoBehaviour
         mainMap = inputActions.FindActionMap("Main");
     }
 
-    public void Lock(bool value)
+    private List<object> lockList = new();
+
+    public void ModifyLockList(bool isAdding, object obj)
     {
-        if (value)
+
+        if (isAdding)
+        {
+            if (!lockList.Contains(obj)) lockList.Add(obj);
+        }
+        else lockList.Remove(obj);
+
+        if (lockList.Count > 0)
         {
             mainMap.Disable();
         }

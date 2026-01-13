@@ -24,13 +24,13 @@ public class FishDiaryCanvas : MonoBehaviour
     void Open()
     {
         Print();
-        LockActionMap.i.Lock(true);
+        LockActionMap.i.ModifyLockList(true, this);
         canvas.gameObject.SetActive(true);
     }
     [Command("hide-diary")]
     void Close()
     {
-        LockActionMap.i.Lock(false);
+        LockActionMap.i.ModifyLockList(false, this);
         canvas.gameObject.SetActive(false);
     }
     public void Print()

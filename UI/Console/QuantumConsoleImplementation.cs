@@ -25,14 +25,14 @@ public class QuantumConsoleImplementation : MonoBehaviour
     {
         //Debug.Log("QC Activated");
         //Game.ModifyPauseList(true, this);
-        LockActionMap.i.Lock(true);
+        LockActionMap.i.ModifyLockList(true, this);
 
     }
 
     void OnDeactivate()
     {
         //Debug.Log("QC Deactivated");
-        LockActionMap.i.Lock(false);
+        LockActionMap.i.ModifyLockList(false, this);
         //Game.ModifyPauseList(false, this);
 
     }

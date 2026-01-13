@@ -91,7 +91,10 @@ public class Game : MonoBehaviour
     private static List<object> pauseList = new();
     public static void ModifyPauseList(bool isAdding, object obj)
     {
-        if (isAdding && !pauseList.Contains(obj)) pauseList.Add(obj);
+        if (isAdding)
+        {
+            if (!pauseList.Contains(obj)) pauseList.Add(obj);
+        }
         else pauseList.Remove(obj);
 
         IsPaused = pauseList.Count > 0;
