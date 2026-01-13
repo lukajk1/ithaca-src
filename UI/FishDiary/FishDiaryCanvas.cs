@@ -3,6 +3,7 @@ using QFSW.QC;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FishDiaryCanvas : MonoBehaviour
 {
@@ -10,10 +11,13 @@ public class FishDiaryCanvas : MonoBehaviour
     [Space(15)]
     [SerializeField] private Canvas canvas;
     [SerializeField] private TextMeshProUGUI record;
+    [SerializeField] private Button closeButton;
 
     private void Awake()
     {
         canvas.gameObject.SetActive(false);
+        closeButton.onClick.AddListener(Close);
+
     }
     private void Start()
     {
@@ -25,12 +29,16 @@ public class FishDiaryCanvas : MonoBehaviour
     {
         Print();
         LockActionMap.i.ModifyLockList(true, this);
+        Game.ModifyCursorUnlockList(true, this);
+        Game.ModifyPauseList(true, this);
         canvas.gameObject.SetActive(true);
     }
     [Command("hide-diary")]
     void Close()
     {
         LockActionMap.i.ModifyLockList(false, this);
+        Game.ModifyCursorUnlockList(false, this);
+        Game.ModifyPauseList(false, this);
         canvas.gameObject.SetActive(false);
     }
     public void Print()
