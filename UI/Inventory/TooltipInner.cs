@@ -45,14 +45,9 @@ public class TooltipInner : MonoBehaviour
         // quality
         qualityText.gameObject.SetActive(item.data is FishData);
 
-        // 1. Get the color object from the gradient evaluation
         Color qualityColor = Tooltip.i.qualityGradient.Evaluate(item.quality);
-
-        // 2. Convert the Color object to an RGB hex string (e.g., "FF00A8")
-        // We use ToHtmlStringRGB to get the hex code without the leading "#" sign.
         string hexColor = ColorUtility.ToHtmlStringRGB(qualityColor);
 
-        // 3. Construct the text using the color tag around the dynamic value
         qualityText.text = $"quality: <color=#{hexColor}>{item.quality.ToString("F2")}</color>";
 
 

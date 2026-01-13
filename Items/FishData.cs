@@ -13,6 +13,7 @@ public class FishData : ItemData
 
     [HorizontalLine(color: EColor.Blue)]
     [Header("Fish Properties")]
+    public string scientificName;
 
     public float weightedRarity = 100f;
 

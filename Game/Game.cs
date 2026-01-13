@@ -79,13 +79,11 @@ public class Game : MonoBehaviour
         if (cursorLockList.Count > 0)
         {
             CursorLockState = CursorLockMode.None;
-            _cursorVisible = true;
             CustomStarterAssetsInputs.i.cursorInputForLook = false;
         }
         else
         {
             CursorLockState = CursorLockMode.Locked;
-            _cursorVisible = false;
             CustomStarterAssetsInputs.i.cursorInputForLook = true;
         }
     }
@@ -100,8 +98,6 @@ public class Game : MonoBehaviour
     }
 
     public static float mouseSensitivity = 250f;
-
-    private static bool _cursorVisible;
 
     public static bool talkingToNPC;
 

@@ -10,8 +10,8 @@ public class CaughtFishAlert : MonoBehaviour
 
     [SerializeField] private Image fishDisplay;
     [SerializeField] private TextMeshProUGUI fishName;
-    [SerializeField] private TextMeshProUGUI fishFlavorText;
     [SerializeField] private TextMeshProUGUI fishQualityFloat;
+    [SerializeField] private TextMeshProUGUI fishFlavorText;
 
     public static CaughtFishAlert i;
     private void Awake()
@@ -38,7 +38,11 @@ public class CaughtFishAlert : MonoBehaviour
         i.fishDisplay.sprite = caughtFish.data.icon;
         i.fishName.text = caughtFish.data.displayName;
         i.fishFlavorText.text = caughtFish.selectedFlavorText;
-        i.fishQualityFloat.text = $"quality: {caughtFish.quality}";
+
+        Color qualityColor = Tooltip.i.qualityGradient.Evaluate(caughtFish.quality);
+        string hexColor = ColorUtility.ToHtmlStringRGB(qualityColor);
+
+        i.fishQualityFloat.text = $"quality: <color=#{hexColor}>{caughtFish.quality}</color>";
 
         LockActionMap.i.Lock(true);
         Game.ModifyCursorUnlockList(true, this);
