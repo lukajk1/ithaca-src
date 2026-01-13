@@ -120,8 +120,11 @@ public class FishingManager : MonoBehaviour
         yield return new WaitForSeconds(biteTime);
 
         //Debug.Log($"Caught a {caughtFish.displayName}!");
-        PlayerInfo.TryAddToInventory(new ConcreteItem(caughtFish, quality));
+        ConcreteItem concreteFish = new ConcreteItem(caughtFish, quality);
+
+        PlayerInfo.TryAddToInventory(concreteFish);
         SoundManager.Play(new SoundData(caughtFishSFX, SoundData.Type.SFX, varyPitch: false, varyVolume: false));
+        CaughtFishAlert.i.Display(concreteFish);
     }
 
     private float NormalRandom()

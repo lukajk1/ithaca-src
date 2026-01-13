@@ -1,4 +1,5 @@
 using QFSW.QC;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,7 +7,11 @@ public class CaughtFishAlert : MonoBehaviour
 {
     [SerializeField] private Button confirmButton;
     [SerializeField] private SlideTransition transition;
+
     [SerializeField] private Image fishDisplay;
+    [SerializeField] private TextMeshProUGUI fishName;
+    [SerializeField] private TextMeshProUGUI fishFlavorText;
+    [SerializeField] private TextMeshProUGUI fishQualityFloat;
 
     public static CaughtFishAlert i;
     private void Awake()
@@ -22,9 +27,19 @@ public class CaughtFishAlert : MonoBehaviour
     }
 
     [Command("caught-fish-display")]
-    private void Display()
+    void DebugDisplay()
     {
-        //i.fishDisplay.sprite = caughtFish.icon;
+        LockActionMap.i.Lock(true);
+        Game.ModifyCursorUnlockList(true, this);
+        i.transition.Animate(true);
+    }
+    public void Display(ConcreteItem caughtFish)
+    {
+        i.fishDisplay.sprite = caughtFish.data.icon;
+        i.fishName.text = caughtFish.data.displayName;
+        i.fishFlavorText.text = caughtFish.selectedFlavorText;
+        i.fishQualityFloat.text = $"quality: {caughtFish.quality}";
+
         LockActionMap.i.Lock(true);
         Game.ModifyCursorUnlockList(true, this);
         i.transition.Animate(true);
