@@ -5,6 +5,7 @@ public class SlideTransition : MonoBehaviour
     [SerializeField] protected Canvas canvas;
     [SerializeField] protected GameObject objectToAnimate;
     [SerializeField] protected Vector2 relativeHidePos;
+    [SerializeField] protected float slideSpeed = 0.08f;
     protected Vector2 ogPos;
 
     public virtual void Awake()
@@ -26,7 +27,7 @@ public class SlideTransition : MonoBehaviour
             LeanTween.cancel(objectToAnimate);
 
         LeanTween.alphaCanvas(objectToAnimate.GetComponent<CanvasGroup>(), value ? 1f : 0f, 0.08f).setUseEstimatedTime(true);
-        LeanTween.move(objectToAnimate.GetComponent<RectTransform>(), value ? ogPos : (ogPos + relativeHidePos), 0.15f)
+        LeanTween.move(objectToAnimate.GetComponent<RectTransform>(), value ? ogPos : (ogPos + relativeHidePos), slideSpeed)
             .setOnComplete(() =>
             {
                 canvas.gameObject.SetActive(value);
