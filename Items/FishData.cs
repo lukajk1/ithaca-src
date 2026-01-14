@@ -16,6 +16,10 @@ public class FishData : ItemData
     public string scientificName;
 
     public float weightedRarity = 100f;
+    
+    public Vector2 weightRangeKilograms;
+    public Vector2 lengthRangeMeters;
+
 
     public List<DayPeriod> cantBeCaughtTimes;
 

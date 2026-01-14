@@ -46,6 +46,7 @@ public struct EquipmentStats
         castSpeedModifier = 1f;
         castWindowSizeModifier = 1f;
         minigameDensityModifier = 1f;
+
         commonWeightModifier = 1f;
         uncommonWeightModifier = 1f;
         rareWeightModifier = 1f;

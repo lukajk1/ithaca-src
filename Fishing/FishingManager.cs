@@ -122,6 +122,11 @@ public class FishingManager : MonoBehaviour
         //Debug.Log($"Caught a {caughtFish.displayName}!");
         ConcreteItem concreteFish = new ConcreteItem(caughtFish, quality);
 
+        FishingMinigame.i.Begin(concreteFish);
+    }
+
+    public void OnComplete(ConcreteItem concreteFish)
+    {
         PlayerInfo.TryAddToInventory(concreteFish);
         SoundManager.Play(new SoundData(caughtFishSFX, SoundData.Type.SFX, varyPitch: false, varyVolume: false));
         CaughtFishAlert.i.Display(concreteFish);
