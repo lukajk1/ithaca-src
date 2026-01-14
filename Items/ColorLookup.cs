@@ -16,7 +16,7 @@ public class ColorLookup : MonoBehaviour
         i = this;
     }
 
-    public static Color GetColor(Rarity rarity)
+    public static Color LookupRarity(Rarity rarity)
     {
         switch (rarity)
         {

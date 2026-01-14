@@ -28,7 +28,7 @@ public class TooltipInner : MonoBehaviour
         if (item == null) return;
 
         titleText.text = item.data.displayName;
-        titleText.color = ColorLookup.GetColor(item.data.rarity);
+        titleText.color = ColorLookup.LookupRarity(item.data.rarity);
 
 
         // subheading
