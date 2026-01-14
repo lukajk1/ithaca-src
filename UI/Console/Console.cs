@@ -180,7 +180,7 @@ public class Console : MonoBehaviour
             Game.ModifyPauseList(true, this);
             consoleCanvas.SetActive(true);
 
-            LockActionMap.i.ModifyLockList(true, this);
+            LockActionMap.i.ModifyLockList(ActionMapType.Main, true, this);
             inputField.ActivateInputField();
         }
     }
@@ -190,7 +190,7 @@ public class Console : MonoBehaviour
         inputField.text = ""; // Clear the input field
         consoleCanvas.SetActive(false);
 
-        LockActionMap.i.ModifyLockList(false, this);
+        LockActionMap.i.ModifyLockList(ActionMapType.Main, false, this);
         Game.ModifyPauseList(false, this);
     }
 

@@ -28,7 +28,7 @@ public class FishDiaryCanvas : MonoBehaviour
     void Open()
     {
         Print();
-        LockActionMap.i.ModifyLockList(true, this);
+        LockActionMap.i.ModifyLockList(ActionMapType.Main, true, this);
         Game.ModifyCursorUnlockList(true, this);
         Game.ModifyPauseList(true, this);
         canvas.gameObject.SetActive(true);
@@ -36,7 +36,7 @@ public class FishDiaryCanvas : MonoBehaviour
     [Command("hide-diary")]
     void Close()
     {
-        LockActionMap.i.ModifyLockList(false, this);
+        LockActionMap.i.ModifyLockList(ActionMapType.Main, false, this);
         Game.ModifyCursorUnlockList(false, this);
         Game.ModifyPauseList(false, this);
         canvas.gameObject.SetActive(false);
