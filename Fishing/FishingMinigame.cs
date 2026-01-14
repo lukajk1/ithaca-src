@@ -26,6 +26,9 @@ public class FishingMinigame : MonoBehaviour
     private float timingWindowDeg = 35f;
     private float maximumRotationSpeed = 600f;
 
+    private float progressDecay = 0.05f;
+    private float progressAddOnSuccess = 0.27f;
+
     private ConcreteItem caughtFish;
     private GameObject currentPrompt;
 
@@ -37,6 +40,8 @@ public class FishingMinigame : MonoBehaviour
         i = this;
 
         minigameCamera.gameObject.SetActive(false);
+        gameParent.gameObject.SetActive(false);
+
         QuantumRegistry.RegisterObject(this);
     }
 
@@ -63,6 +68,17 @@ public class FishingMinigame : MonoBehaviour
         if (minigameCamera.gameObject.activeSelf)
         {
             caret.transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);
+
+            // Check if slider is full (win condition)
+            if (progressSlider.value >= 1f)
+            {
+                Close();
+                return;
+            }
+
+            // Decay progress over time
+            progressSlider.value -= progressDecay * Time.deltaTime;
+
         }
     }
     public void Begin(ConcreteItem fish)
@@ -87,6 +103,7 @@ public class FishingMinigame : MonoBehaviour
         LockActionMap.i.ModifyLockList(ActionMapType.Main, true, this);
 
         minigameCamera.gameObject.SetActive(true);
+        gameParent.gameObject.SetActive(true);
 
     }
 
@@ -121,6 +138,9 @@ public class FishingMinigame : MonoBehaviour
             // Increase rotation speed by 15%, clamped to maximum
             rotationSpeed = Mathf.Min(rotationSpeed * 1.15f, maximumRotationSpeed);
 
+            // Add progress to slider
+            progressSlider.value += progressAddOnSuccess;
+
             //Debug.Log($"Hit! Angular diff: {angularDiff:F1}° - New speed: {rotationSpeed:F1}°/s");
         }
         else
@@ -148,7 +168,11 @@ public class FishingMinigame : MonoBehaviour
     [Command("end-minigame")]
     public void Close()
     {
+        gameParent.gameObject.SetActive(false);
         minigameCamera.gameObject.SetActive(false);
+
+        progressSlider.value = 0f;
+        
         LockActionMap.i.ModifyLockList(ActionMapType.Main, false, this);
         FishingManager.i.OnComplete(caughtFish);
     }
