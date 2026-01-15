@@ -10,7 +10,7 @@ public class EquipmentData : ItemData
 [System.Serializable]
 public struct EquipmentStats
 {
-    [InfoBox("Modifiers aren't prefixed with a '1'. i.e. 20% speed increase= 0.2, not 1.2. Modifiers on equipment are additive.")]
+    [InfoBox("Modifiers should not be prefixed with a '1'. i.e. 20% speed increase= 0.2, not 1.2. Modifiers on equipment are additive.")]
     [Space(10)]
     public float biteSpeedModifier;
     public float castStrengthModifier;
@@ -20,7 +20,7 @@ public struct EquipmentStats
     public float castWindowSizeModifier;
 
     public float castMinigameSpeedModifier;
-    public float minigameSpeedModifier;
+    public float minigameRotationSpeedModifier;
 
     [Tooltip("The number and spacing of obstacles")]
     public float minigameDensityModifier;
@@ -41,7 +41,7 @@ public struct EquipmentStats
         biteSpeedModifier = 1f;
         castMinigameSpeedModifier = 1f;
 
-        minigameSpeedModifier = 1f;
+        minigameRotationSpeedModifier = 1f;
         castStrengthModifier = 1f;
         castSpeedModifier = 1f;
         castWindowSizeModifier = 1f;

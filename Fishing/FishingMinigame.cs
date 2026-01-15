@@ -102,6 +102,8 @@ public class FishingMinigame : MonoBehaviour
 
         LockActionMap.i.ModifyLockList(ActionMapType.Main, true, this);
 
+        rotationSpeed *= Mathf.Max(PlayerInfo.Stats.minigameRotationSpeedModifier, 0.15f);
+
         minigameCamera.gameObject.SetActive(true);
         gameParent.gameObject.SetActive(true);
 
@@ -171,8 +173,22 @@ public class FishingMinigame : MonoBehaviour
         gameParent.gameObject.SetActive(false);
         minigameCamera.gameObject.SetActive(false);
 
+        // Reset slider
         progressSlider.value = 0f;
-        
+
+        // Reset rotation speed
+        rotationSpeed = 110f;
+
+        // Destroy current prompt instance
+        if (currentPrompt != null)
+        {
+            Destroy(currentPrompt);
+            currentPrompt = null;
+        }
+
+        // Reset caret rotation
+        caret.transform.localEulerAngles = Vector3.zero;
+
         LockActionMap.i.ModifyLockList(ActionMapType.Main, false, this);
         FishingManager.i.OnComplete(caughtFish);
     }

@@ -140,7 +140,7 @@ public class PlayerInfo : MonoBehaviour
                 totalStats.castStrengthModifier += (itemStats.castStrengthModifier);
                 totalStats.castSpeedModifier += (itemStats.castSpeedModifier);
                 totalStats.castWindowSizeModifier += (itemStats.castWindowSizeModifier);
-                totalStats.minigameSpeedModifier += (itemStats.minigameSpeedModifier);
+                totalStats.minigameRotationSpeedModifier += (itemStats.minigameRotationSpeedModifier);
                 totalStats.minigameDensityModifier += (itemStats.minigameDensityModifier);
                 totalStats.commonWeightModifier += (itemStats.commonWeightModifier);
                 totalStats.uncommonWeightModifier += (itemStats.uncommonWeightModifier);
